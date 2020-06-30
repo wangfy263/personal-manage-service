@@ -11,6 +11,13 @@ module.exports = appInfo => {
    * @type {Egg.EggAppConfig}
    **/
   const config = exports = {};
+  config.cluster = {
+    listen: {
+      path: '',
+      port: 8004,
+      hostname: '0.0.0.0',
+    },
+  };
 
   config.sequelize = {
     dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
@@ -27,7 +34,7 @@ module.exports = appInfo => {
       timestamps: false, // I do not want timestamp fields by default
     },
     dialectOptions: {
-      useUTC: false, // for reading from database
+      // useUTC: false, // for reading from database
       dateStrings: true,
       typeCast: (field, next) => { // for reading from database
         if (field.type === 'DATETIME') {
