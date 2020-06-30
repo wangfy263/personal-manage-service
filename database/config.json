@@ -1,0 +1,26 @@
+{
+  "development": {
+    "dialect": "mysql",
+    "database": "personal-manage",
+    "host": "47.104.199.74",
+    "username": "root",
+    "password": "123Qwe!!",
+    "operatorsAliases": false
+  },
+  "test": {
+    "dialect": "mysql",
+    "database": "personal-manage",
+    "host": "47.104.199.74",
+    "username": "root",
+    "password": "123Qwe!!",
+    "operatorsAliases": false
+  },
+  "production": {
+    "dialect": "mysql",
+    "database": "personal-manage",
+    "host": "47.104.199.74",
+    "username": "root",
+    "password": "123Qwe!!",
+    "operatorsAliases": false
+  }
+}
