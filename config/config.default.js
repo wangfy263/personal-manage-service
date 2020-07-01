@@ -2,6 +2,9 @@
 
 'use strict';
 
+const cryptoUtil = require('../app/utils/crypto/cryptoUtil');
+const properties = require('./config.self');
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -22,10 +25,13 @@ module.exports = appInfo => {
   config.sequelize = {
     dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
     database: 'personal-manage',
-    host: '47.104.199.74',
-    port: 3306,
-    username: 'root',
-    password: '123Qwe!!',
+    host: cryptoUtil.privateDecrypt(properties.dbConfig.host).toString(),
+    // host: '47.104.199.74',
+    port: cryptoUtil.privateDecrypt(properties.dbConfig.port).toString(),
+    // port: 3306,
+    username: cryptoUtil.privateDecrypt(properties.dbConfig.user).toString(),
+    password: cryptoUtil.privateDecrypt(properties.dbConfig.password).toString(),
+    // password: '123Qwe!!',
     // timezone: '+08:00',
     // 解决时间误差8小时问题
     define: {
