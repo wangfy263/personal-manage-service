@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 const RetInfo = require('../utils/retInfo');
-const { consoleLevel } = require('egg-mock');
+const { Op } = require('sequelize');
 
 // 定义创建接口的请求参数规则
 const createRule = {
@@ -29,13 +29,17 @@ class ExpendController extends Controller {
     if (ctx.query.level2Res) {
       condition.where.type_level_second = ctx.query.level2Res;
     }
-    if (ctx.query.date) {
-      condition.where.expend_time = ctx.query.date;
+    if (ctx.query.startDate && ctx.query.endDate) {
+      condition.where.expend_time = {
+        [Op.and]: {
+          [Op.gt]: new Date(ctx.query.startDate),
+          [Op.lt]: new Date(ctx.query.endDate),
+        },
+      };
     }
     if (ctx.query.remark) {
       condition.where.remark = ctx.query.remark;
     }
-    console.log(condition);
     const expends = await ctx.model.Expend.findAll(condition);
     const resInfo = new RetInfo('000000', '成功', expends);
     ctx.status = 200;
