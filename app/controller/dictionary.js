@@ -59,8 +59,26 @@ class CommonController extends Controller {
       },
     };
     ctx.validate(updateRule, ctx.request.body);
+    ctx.request.body.update_time = new Date();
     // 调用 service update 指定对dict
     const { detail_id } = await ctx.model.Dictionary.update(ctx.request.body, condition);
+    // 设置响应体和状态码
+    const resInfo = new RetInfo('000000', '成功', { id: detail_id });
+    ctx.status = 201;
+    ctx.body = resInfo;
+  }
+  async destroy() {
+    const { ctx } = this;
+    if (!ctx.params.id) {
+      ctx.body = new RetInfo();
+    }
+    const condition = {
+      where: {
+        id: ctx.params.id,
+      },
+    };
+    // 调用 service del 指定的dict
+    const { detail_id } = await ctx.model.Dictionary.destroy(condition);
     // 设置响应体和状态码
     const resInfo = new RetInfo('000000', '成功', { id: detail_id });
     ctx.status = 201;
