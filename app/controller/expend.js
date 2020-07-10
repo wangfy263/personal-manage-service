@@ -32,8 +32,8 @@ class ExpendController extends Controller {
     if (ctx.query.startDate && ctx.query.endDate) {
       condition.where.expend_time = {
         [Op.and]: {
-          [Op.gt]: new Date(ctx.query.startDate),
-          [Op.lt]: new Date(ctx.query.endDate),
+          [Op.gte]: new Date(ctx.query.startDate),
+          [Op.lte]: new Date(ctx.query.endDate),
         },
       };
     }
