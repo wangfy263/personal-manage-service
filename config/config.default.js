@@ -32,7 +32,7 @@ module.exports = appInfo => {
     username: cryptoUtil.privateDecrypt(properties.dbConfig.user).toString(),
     password: cryptoUtil.privateDecrypt(properties.dbConfig.password).toString(),
     // password: '123Qwe!!',
-    // timezone: '+08:00',
+    timezone: '+08:00',
     // 解决时间误差8小时问题
     define: {
       underscored: true,
@@ -49,7 +49,7 @@ module.exports = appInfo => {
         return next();
       },
     },
-    timezone: '+08:00',
+    // timezone: '+08:00',
     // delegate: 'myModel', // load all models to `app[delegate]` and `ctx[delegate]`, default to `model`
     // baseDir: 'my_model', // load all files in `app/${baseDir}` as models, default to `model`
     // exclude: 'index.js', // ignore `app/${baseDir}/index.js` when load models, support glob and array

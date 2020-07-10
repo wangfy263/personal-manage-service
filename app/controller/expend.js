@@ -22,6 +22,7 @@ class ExpendController extends Controller {
     const condition = {
       where: {},
     };
+    console.log(new Date(ctx.query.startDate));
     // 获取入参
     if (ctx.query.level1Res) {
       condition.where.type_level_first = ctx.query.level1Res;
@@ -32,8 +33,8 @@ class ExpendController extends Controller {
     if (ctx.query.startDate && ctx.query.endDate) {
       condition.where.expend_time = {
         [Op.and]: {
-          [Op.gte]: new Date(ctx.query.startDate),
-          [Op.lte]: new Date(ctx.query.endDate),
+          [Op.gte]: new Date(ctx.query.startDate + ' 00:00:00'),
+          [Op.lte]: new Date(ctx.query.endDate + ' 00:00:00'),
         },
       };
     }
