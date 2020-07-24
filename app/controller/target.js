@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 const RetInfo = require('../utils/retInfo');
-// const { Op } = require('sequelize');
+const { Op } = require('sequelize');
 
 // 定义创建接口的请求参数规则
 const createRule = {
@@ -11,10 +11,9 @@ const createRule = {
   login_no: { type: 'string', required: false },
   target_measurable: 'string',
   target_motivation: 'string',
-  // type_level_first: { type: 'enum', values: [ 'ask', 'share', 'job' ], required: false }
   target_time_bound: 'string',
   target_time_bound_real: { type: 'string', required: false },
-  target_state: { type: 'number', values: [ 0, 1 ], required: false },
+  target_state: { type: 'number', values: [0, 1], required: false },
   parent_target_id: { type: 'number', required: false },
 };
 
@@ -32,9 +31,33 @@ class TargetController extends Controller {
   }
   async show() {
     const { ctx } = this;
-    ctx.validate({ id: 'Number' }, ctx.params);
-    const targets = await ctx.model.Target.findByPk(ctx.params.id);
-    const resInfo = new RetInfo('000000', '成功', targets);
+    ctx.validate({ id: 'Number', isQryChild: { type: 'boolean', required: false } }, ctx.params);
+    const condition = {};
+    if (ctx.query.isQryChild) {
+      condition.where = {
+        [Op.or]: [
+          {
+            target_id: {
+              [Op.eq]: ctx.params.id,
+            },
+          },
+          {
+            parent_target_id: {
+              [Op.eq]: ctx.params.id,
+            },
+          },
+        ],
+      };
+    } else {
+      condition.where = {
+        target_id: {
+          [Op.eq]: ctx.params.id,
+        },
+      };
+    }
+    const targets = await ctx.model.Target.findAll(condition);
+    const plans = await ctx.model.Plan.findAll({ where: { target_id: ctx.params.id } });
+    const resInfo = new RetInfo('000000', '成功', { targets, plans });
     ctx.status = 200;
     ctx.body = resInfo;
   }
