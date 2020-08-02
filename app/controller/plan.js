@@ -56,12 +56,13 @@ class TargetController extends Controller {
     let taskList = [];
     Object.keys(tasks).forEach(item => {
       taskList = taskList.concat(
-        tasks[item].map(each => {
+        tasks[item].dates.map(each => {
           const task = {};
           task.plan_id = plan_id;
           task.task_date = each;
           task.task_content = item;
           task.task_state = 0;
+          task.task_type = tasks[item].important;
           task.create_time = inParam.create_time;
           return task;
         })
@@ -69,7 +70,7 @@ class TargetController extends Controller {
     });
     await ctx.model.Task.bulkCreate(taskList, {
       validate: true,
-      fields: [ 'plan_id', 'task_content', 'task_date', 'task_state' ],
+      fields: [ 'plan_id', 'task_content', 'task_date', 'task_state', 'task_type', 'create_time' ],
     });
     // 设置响应体和状态码
     const resInfo = new RetInfo('000000', '成功', { id: plan_id });
