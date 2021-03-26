@@ -13,6 +13,7 @@ module.exports = app => {
   router.resources('target', '/api/personal/targets', controller.target);
   router.resources('plan', '/api/personal/plans', controller.plan);
   router.resources('task', '/api/personal/tasks', controller.task);
+  router.resources('swot', '/api/personal/methods/swot', controller.swot);
 
   // 加载所有的校验规则
   const validate = path.join(app.config.baseDir, 'app/validate');

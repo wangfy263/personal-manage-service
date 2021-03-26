@@ -5,7 +5,8 @@ const fs = require('fs');
 
 const exportKey = key => {
   if (process.env.NODE_ENV === 'development') {
-    return fs.readFileSync(process.cwd() + '/app/utils/crypto/rsa_' + key + '_key.pem').toString('ascii');
+    // return fs.readFileSync(process.cwd() + '/app/utils/crypto/rsa_' + key + '_key.pem').toString('ascii');
+    return fs.readFileSync(process.cwd() + '\\app\\utils\\crypto\\rsa_' + key + '_key.pem').toString('ascii');
     // }else if(process.env.NODE_ENV === 'production') {
     //   return fs.readFileSync('/root/crypto/rsa_' + key + '_key.pem').toString('ascii')
     // }else if(process.env.NODE_ENV === 'testing') {
